@@ -12,6 +12,8 @@ public class GameManager : MonoBehaviour
     public UnityEvent OnWaveBegin = new();
     [HideInInspector]
     public UnityEvent OnWaveEnd = new();
+    [HideInInspector]
+    public UnityEvent<bool> OnGameOver = new();
 
     public GameData Data => _data;
     [SerializeField] private GameData _data;
@@ -21,6 +23,9 @@ public class GameManager : MonoBehaviour
     private bool _gameStarted;
 
     private float timerStartTime;
+    private Coroutine waveTimerCoroutine;
+
+    private int _currentPowerIndex;
 
     private void Awake()
     {
@@ -39,7 +44,36 @@ public class GameManager : MonoBehaviour
     {
         _gameStarted = true;
         _currentWave = 0;
-        StartCoroutine(StartWaveTimer());
+        _currentPowerIndex = 0;
+        waveTimerCoroutine = StartCoroutine(StartWaveTimer());
+    }
+
+    public void GameOver(bool playerWon)
+    {
+        if (waveTimerCoroutine != null)
+        {
+            StopCoroutine(waveTimerCoroutine);
+            waveTimerCoroutine = null;
+        }
+
+        _gameStarted = false;
+
+        OnGameOver.Invoke(playerWon);
+    }
+
+    public PowerData GetCurrentPower()
+    {
+        return _data.powers[_currentPowerIndex];
+    }
+
+    public void HandleRiddleGuessed(string guess)
+    {
+        PowerData power = GetCurrentPower();
+        if (guess.ToUpper().Contains(power.answer.ToUpper()))
+        {
+            Player.Instance.AddPower(power);
+            _currentPowerIndex++;
+        }
     }
 
     public IEnumerator StartWaveTimer()

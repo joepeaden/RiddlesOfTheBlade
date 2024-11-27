@@ -35,7 +35,7 @@ Transform:
   m_Children:
   - {fileID: 325187834059341728}
   m_Father: {fileID: 0}
-  m_RootOrder: -1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &7619362381242609464
 SpriteRenderer:
@@ -173,7 +173,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f17403e0ba1b04542ba3f41b26b28016, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  OnDeath:
+    m_PersistentCalls:
+      m_Calls: []
   data: {fileID: 11400000, guid: f69c1b21e5e074539b84c75dc32e469a, type: 2}
+  attackColliderT: {fileID: 325187834059341728}
 --- !u!114 &7785726534558287621
 MonoBehaviour:
   m_ObjectHideFlags: 0

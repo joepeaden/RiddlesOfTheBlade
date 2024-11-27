@@ -1,24 +1,33 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Character : MonoBehaviour
 {
+    [HideInInspector]
+    public UnityEvent OnDeath = new();
+
     public Character currentTarget { get; set; }
     public bool IsPlayer { get; set; }
     public Vector2 LookDirection { get; set; }
+    public int DamageBuff { get; set; }
+    public int PushbackBuff { get; set; }
 
     public CharacterData Data => data;
     [SerializeField] private CharacterData data;
+
+    [SerializeField] private Transform attackColliderT;
 
     private HashSet<Character> _targets = new();
     private bool _isDead = false;
     private Rigidbody2D _rb;
     private int currentHP;
+    private Vector3 originalAttackColliderScale;
 
     private void Awake()
     {
         _rb = GetComponent<Rigidbody2D>();
+        originalAttackColliderScale = attackColliderT.localScale;
     }
 
     private void OnEnable()
@@ -33,6 +42,9 @@ public class Character : MonoBehaviour
         }
 
         _isDead = false;
+        attackColliderT.localScale = originalAttackColliderScale;
+        DamageBuff = 0;
+        PushbackBuff = 0;
     }
 
     private void Update()
@@ -41,17 +53,23 @@ public class Character : MonoBehaviour
         if (_isDead)
         {
             gameObject.SetActive(false);
+            OnDeath.Invoke();
         }
+    }
+
+    public void MultiplyAttackAOE(float aoeBuff)
+    {
+        attackColliderT.localScale *= aoeBuff;
     }
 
     public int GetKnockbackForce()
     {
-        return data.attackPushback;
+        return data.attackPushback + PushbackBuff;
     }
 
     public int GetAttackDamage()
     {
-        return data.baseDamage;
+        return data.baseDamage + DamageBuff;
     }
 
     public void GetHit(Character attackingCharacter)

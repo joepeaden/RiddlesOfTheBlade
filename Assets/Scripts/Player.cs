@@ -9,7 +9,7 @@ public class Player : MonoBehaviour
 
     private Character _character;
     private Rigidbody2D _rb;
-    
+
     private void Awake()
     {
         if (_instance == null)
@@ -26,6 +26,7 @@ public class Player : MonoBehaviour
         _rb = GetComponent<Rigidbody2D>();
 
         _character.IsPlayer = true;
+        _character.OnDeath.AddListener(HandleDeath);
     }
 
     private void Start()
@@ -36,11 +37,12 @@ public class Player : MonoBehaviour
     private void OnDestroy()
     {
         GameManager.Instance.OnWaveBegin.RemoveListener(Reset);
+        _character.OnDeath.RemoveListener(HandleDeath);
     }
 
     private void Update()
     {
-        // avoiding needles processing
+        // avoiding needless processing
         if (Input.anyKey)
         {
             Vector2 inputDirection = Vector2.zero;
@@ -76,8 +78,21 @@ public class Player : MonoBehaviour
         }
     }
 
+    public void AddPower(PowerData newPower)
+    {
+        _character.DamageBuff += newPower.damageBuff;
+        _character.MultiplyAttackAOE(newPower.aoeMultiplier);
+        _character.PushbackBuff += newPower.attackPushbackBuff;
+    }
+
+    private void HandleDeath()
+    {
+        GameManager.Instance.GameOver(false);
+    }
+
     private void Reset()
     {
         transform.position = new Vector3(0, 0, 0);
+        gameObject.SetActive(true);
     }
 }

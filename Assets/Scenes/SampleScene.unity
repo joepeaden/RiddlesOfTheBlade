@@ -1239,6 +1239,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70755f444c071418fb1295691f4e2188, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  OnRiddleGuessed:
+    m_PersistentCalls:
+      m_Calls: []
   gameStartButton: {fileID: 407094366}
   restartGameButton: {fileID: 1550518560}
   attemptRiddleButton: {fileID: 1435745606}
@@ -1249,6 +1252,8 @@ MonoBehaviour:
   riddleScreen: {fileID: 1935527577}
   gameOverText: {fileID: 915776697}
   timerText: {fileID: 218214204}
+  riddleText: {fileID: 2086438258}
+  riddleGuessInput: {fileID: 982548965}
 --- !u!4 &783680700
 Transform:
   m_ObjectHideFlags: 0
@@ -1280,6 +1285,9 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   OnWaveEnd:
+    m_PersistentCalls:
+      m_Calls: []
+  OnGameOver:
     m_PersistentCalls:
       m_Calls: []
   _data: {fileID: 11400000, guid: 69ee0ad56bf3243838882cb14939c1f1, type: 2}

@@ -14,3 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   baseTimer: 15
   spawnInterval: 0.5
+  powers:
+  - {fileID: 11400000, guid: d40f5c0d2e36646fa9cef96eab7eea80, type: 2}
+  - {fileID: 11400000, guid: 2880d7d690c27449dbde5c3f2b0b54c3, type: 2}
+  - {fileID: 11400000, guid: 9b2962142204744779f2bfd5976bacad, type: 2}

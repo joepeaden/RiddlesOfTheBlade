@@ -20,11 +20,13 @@ public class Enemy : MonoBehaviour
     private void Start()
     {
         GameManager.Instance.OnWaveEnd.AddListener(HandleWaveEnd);
+        GameManager.Instance.OnGameOver.AddListener(HandleGameOver);
     }
 
     private void OnDestroy()
     {
         GameManager.Instance.OnWaveEnd.RemoveListener(HandleWaveEnd);
+        GameManager.Instance.OnGameOver.RemoveListener(HandleGameOver);
     }
 
     private void OnEnable()
@@ -71,6 +73,11 @@ public class Enemy : MonoBehaviour
     }
 
     private void HandleWaveEnd()
+    {
+        gameObject.SetActive(false);
+    }
+
+    private void HandleGameOver(bool playerWon)
     {
         gameObject.SetActive(false);
     }
