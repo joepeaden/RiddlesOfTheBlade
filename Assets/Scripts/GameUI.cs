@@ -9,6 +9,7 @@ public class GameUI : MonoBehaviour
 {
     public UnityEvent OnRiddleGuessed = new();
 
+    // yeah yeah yeah these should all have an underscore. its' a game jam, whatever.
     [SerializeField] private Button gameStartButton;
     [SerializeField] private Button restartGameButton;
     [SerializeField] private Button attemptRiddleButton;
@@ -21,6 +22,7 @@ public class GameUI : MonoBehaviour
     [SerializeField] private TMP_Text timerText;
     [SerializeField] private TMP_Text riddleText;
     [SerializeField] private TMP_InputField riddleGuessInput;
+    [SerializeField] private HPBar hpBar;
 
     private void Awake()
     {

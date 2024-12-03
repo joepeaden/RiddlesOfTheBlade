@@ -7,7 +7,7 @@ public class Player : MonoBehaviour
     public static Player Instance => _instance;
     private static Player _instance;
 
-    private Character _character;
+    public Character Character { get; private set; }
     private Rigidbody2D _rb;
 
     private void Awake()
@@ -22,11 +22,10 @@ public class Player : MonoBehaviour
             Destroy(gameObject);
         }
 
-        _character = GetComponent<Character>();
+        Character = GetComponent<Character>();
         _rb = GetComponent<Rigidbody2D>();
 
-        _character.IsPlayer = true;
-        _character.OnDeath.AddListener(HandleDeath);
+        Character.OnDeath.AddListener(HandleDeath);
     }
 
     private void Start()
@@ -37,7 +36,7 @@ public class Player : MonoBehaviour
     private void OnDestroy()
     {
         GameManager.Instance.OnWaveBegin.RemoveListener(Reset);
-        _character.OnDeath.RemoveListener(HandleDeath);
+        Character.OnDeath.RemoveListener(HandleDeath);
     }
 
     private void Update()
@@ -67,22 +66,29 @@ public class Player : MonoBehaviour
             // normalize in case two buttons were pressed at once
             inputDirection.Normalize();
 
-            _character.LookDirection = inputDirection;
+            Character.LookDirection = inputDirection;
 
-            _rb.velocity = inputDirection * _character.Data.playerMoveVelocity;
+            _rb.velocity = inputDirection * Character.MaxSpeed;
 
             if (Input.GetKeyDown(KeyCode.Space))
             {
-                _character.Attack();
+                Character.Attack();
             }
         }
     }
 
     public void AddPower(PowerData newPower)
     {
-        _character.DamageBuff += newPower.damageBuff;
-        _character.MultiplyAttackAOE(newPower.aoeMultiplier);
-        _character.PushbackBuff += newPower.attackPushbackBuff;
+        Character.DamageBuff += newPower.damageBuff;
+
+        if (newPower.aoeMultiplier > 0)
+        {
+            Character.MultiplyAttackAOE(newPower.aoeMultiplier);
+        }
+
+        Character.PushbackBuff += newPower.attackPushbackBuff;
+        Character.HPRegenPerSec += newPower.hpRegenPerSec;
+        Character.AddSpeedBuff(newPower.speedBuff);
     }
 
     private void HandleDeath()

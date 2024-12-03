@@ -8,4 +8,6 @@ public class PowerData : ScriptableObject
     public int attackPushbackBuff;
     public int damageBuff;
     public float aoeMultiplier;
+    public int speedBuff;
+    public int hpRegenPerSec;
 }

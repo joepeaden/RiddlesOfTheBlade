@@ -56,7 +56,7 @@ public class Enemy : MonoBehaviour
         if (inputDirection.magnitude > _character.Data.enemyStopDistance)
         {
             inputDirection.Normalize();
-            _rb.velocity = inputDirection * _character.Data.enemyMoveVelocity;
+            _rb.velocity = inputDirection * _character.MaxSpeed;
             _attackTimer = GetNextAttackTime();
         }
         else

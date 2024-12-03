@@ -12,8 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f79c17d3c3444d668ec6e12b99cd487, type: 3}
   m_Name: WrathPower
   m_EditorClassIdentifier: 
-  riddle: What is your favorite color?
-  answer: blue
+  riddle: "I boil and seethe, unseen yet fierce, A fire within that reason can\u2019t
+    pierce."
+  answer: Rage
   attackPushbackBuff: 200
   damageBuff: 2
   aoeMultiplier: 2
